@@ -1,21 +1,22 @@
+"use client";
 import Link from "next/link";
+import { Container } from "react-bootstrap";
 import AppTable from "@/components/app.table";
+import { useEffect } from "react";
 
 export default function Home() {
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("http://localhost:8000/blogs");
+      const data = await res.json();
+      console.log("check res:", data);
+    };
+    fetchData();
+  }, []);
+
   return (
-    <div className="container mx-auto">
-      <ul>
-        <li>
-          <Link href="/facebook">Facebook</Link>
-        </li>
-        <li>
-          <a href="/instagram">Intagram</a>
-        </li>
-        <li>
-          <a href="/tiktok">Tiktok</a>
-        </li>
-      </ul>
+    <Container>
       <AppTable />
-    </div>
+    </Container>
   );
 }
