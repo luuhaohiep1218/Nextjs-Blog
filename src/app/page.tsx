@@ -1,4 +1,6 @@
 import Link from "next/link";
+import AppTable from "@/components/app.table";
+
 export default function Home() {
   return (
     <div className="container mx-auto">
@@ -13,6 +15,7 @@ export default function Home() {
           <a href="/tiktok">Tiktok</a>
         </li>
       </ul>
+      <AppTable />
     </div>
   );
 }
