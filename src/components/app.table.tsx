@@ -1,34 +1,39 @@
-import Table from "react-bootstrap/Table";
+import { Button, Table } from "react-bootstrap";
 
-export default function AppTable() {
+interface IProps {
+  blogs: IBlog[];
+}
+export default function AppTable(props: IProps) {
+  const { blogs } = props;
+
   return (
     <Table striped bordered hover>
       <thead>
         <tr>
           <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td colSpan={2}>Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
+        {blogs?.map((blog) => {
+          return (
+            <tr key={blog.id}>
+              <td>{blog.id}</td>
+              <td>{blog.title}</td>
+              <td>{blog.author}</td>
+              <td>
+                <Button variant="primary">View</Button>
+
+                <Button className="mx-3" variant="danger">
+                  Delete
+                </Button>
+                <Button variant="warning">Edit</Button>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </Table>
   );
