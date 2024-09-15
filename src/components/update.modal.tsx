@@ -2,31 +2,42 @@
 
 import React from "react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Modal, FloatingLabel, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
+import useSWR from "swr";
 import { mutate } from "swr";
 
 interface IProps {
-  showModalCreate: boolean;
-  setShowModalCreate: (v: boolean) => void;
+  showModalUpdate: boolean;
+  setShowModalUpdate: (v: boolean) => void;
+  blog: IBlog | null;
+  setBlog: (v: IBlog | null) => void;
 }
+function UpdateModal(props: IProps) {
+  const { showModalUpdate, setShowModalUpdate, blog, setBlog } = props;
 
-function CreateModal(props: IProps) {
-  const { showModalCreate, setShowModalCreate } = props;
-
+  const [id, setId] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
   const [author, setAuthor] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    if (blog && blog.id) {
+      setId(blog.id);
+      setTitle(blog.title);
+      setAuthor(blog.author);
+      setContent(blog.content);
+    }
+  }, [blog]);
+
+  const handleUpdate = () => {
     if (!title || !author || !content) {
       toast.error("Input is not empty !");
       return;
     }
-
-    fetch("http://localhost:8000/blogs", {
-      method: "POST",
+    fetch(`http://localhost:8000/blogs/${id}`, {
+      method: "PUT",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
@@ -36,7 +47,7 @@ function CreateModal(props: IProps) {
       .then((res) => res.json())
       .then((res) => {
         if (res) {
-          toast.success("Create success !...~");
+          toast.warning("Update Blog success !...~");
           handleClose();
           mutate("http://localhost:8000/blogs");
         }
@@ -47,20 +58,21 @@ function CreateModal(props: IProps) {
     setTitle("");
     setAuthor("");
     setContent("");
-    setShowModalCreate(false);
+    setBlog(null);
+    setShowModalUpdate(false);
   };
 
   return (
     <>
       <Modal
-        show={showModalCreate}
+        show={showModalUpdate}
         onHide={() => handleClose()}
         backdrop="static"
         keyboard={false}
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add New Blog</Modal.Title>
+          <Modal.Title>Update A Blog</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <FloatingLabel
@@ -110,8 +122,8 @@ function CreateModal(props: IProps) {
           <Button variant="secondary" onClick={() => handleClose()}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Save
+          <Button variant="warning" onClick={handleUpdate}>
+            Update
           </Button>
         </Modal.Footer>
       </Modal>
@@ -119,4 +131,4 @@ function CreateModal(props: IProps) {
   );
 }
 
-export default CreateModal;
+export default UpdateModal;

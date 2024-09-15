@@ -17,7 +17,6 @@ export default function Home() {
       revalidateOnReconnect: false,
     }
   );
-  if (!data) return <div>Loading ...</div>;
   if (error) return "An error has occurred.";
   if (isLoading) return "Loading...";
   // useEffect(() => {
