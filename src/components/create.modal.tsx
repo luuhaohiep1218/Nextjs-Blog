@@ -1,6 +1,11 @@
 "use client";
+
+import React from "react";
+
 import { useState } from "react";
 import { Button, Modal, FloatingLabel, Form } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { mutate } from "swr";
 
 interface IProps {
   showModal: boolean;
@@ -15,7 +20,27 @@ function CreateModal(props: IProps) {
   const [content, setContent] = useState<string>("");
 
   const handleSubmit = () => {
-    console.log("Check data form", title, author, content);
+    if (!title || !author || !content) {
+      toast.error("Input is not empty !");
+      return;
+    }
+
+    fetch("http://localhost:8000/blogs", {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title, author, content }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res) {
+          toast.success("Create success !...~");
+          handleClose();
+          mutate("http://localhost:8000/blogs");
+        }
+      });
   };
 
   const handleClose = () => {

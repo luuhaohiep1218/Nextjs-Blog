@@ -1,7 +1,14 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
+import React from "react";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
+
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+
 import Header from "../components/app.header";
 import Footer from "../components/app.footer";
 
@@ -38,6 +45,17 @@ export default function RootLayout({
         <footer>
           <Footer />
         </footer>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </body>
     </html>
   );

@@ -31,7 +31,7 @@ export default function Home() {
 
   return (
     <Container>
-      <AppTable blogs={data} />
+      <AppTable blogs={data?.sort((a: any, b: any) => b.id - a.id)} />
     </Container>
   );
 }
