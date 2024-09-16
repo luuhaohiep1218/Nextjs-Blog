@@ -1,9 +1,15 @@
-"use client";
 import Link from "next/link";
 import { Container } from "react-bootstrap";
 import AppTable from "@/components/app.table";
 import { useEffect } from "react";
 import BlogsPage from "./blogs/page";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "HomePage",
+  description: "Home page description",
+};
 
 export default function Home() {
   // useEffect(() => {
@@ -15,5 +21,5 @@ export default function Home() {
   //   fetchData();
   // }, []);
 
-  return <Container></Container>;
+  return <div></div>;
 }
