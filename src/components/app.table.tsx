@@ -1,7 +1,9 @@
+"use client";
 import { useState } from "react";
 import { Button, Row, Table } from "react-bootstrap";
 import CreateModal from "./create.modal";
 import UpdateModal from "./update.modal";
+import Link from "next/link";
 
 interface IProps {
   blogs: IBlog[];
@@ -44,7 +46,9 @@ export default function AppTable(props: IProps) {
                 <td>{item.title}</td>
                 <td>{item.author}</td>
                 <td>
-                  <Button variant="primary">View</Button>
+                  <Link href={`/blogs/${item.id}`}>
+                    <Button variant="primary">View</Button>
+                  </Link>
 
                   <Button className="mx-3" variant="danger">
                     Delete

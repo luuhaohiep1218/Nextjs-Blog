@@ -11,6 +11,7 @@ import localFont from "next/font/local";
 
 import Header from "../components/app.header";
 import Footer from "../components/app.footer";
+import { Container } from "react-bootstrap";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,7 +42,7 @@ export default function RootLayout({
         <header>
           <Header />
         </header>
-        {children}
+        <Container>{children}</Container>
         <footer>
           <Footer />
         </footer>
