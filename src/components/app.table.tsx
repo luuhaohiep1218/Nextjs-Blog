@@ -1,6 +1,9 @@
 "use client";
 import { useState } from "react";
 import { Button, Row, Table } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { mutate } from "swr";
+
 import CreateModal from "./create.modal";
 import UpdateModal from "./update.modal";
 import Link from "next/link";
@@ -12,9 +15,25 @@ export default function AppTable(props: IProps) {
   const { blogs } = props;
 
   const [blog, setBlog] = useState<IBlog | null>(null);
+  const [id, setId] = useState<number>(0);
 
   const [showModalCreate, setShowModalCreate] = useState<boolean>(false);
   const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false);
+
+  const handleDelete = (id: any) => {
+    if (confirm("Ban chac chan muon xoa bai viet nay !")) {
+      fetch("http://localhost:8000/blogs/" + id, {
+        method: "DELETE",
+      })
+        .then((res) => res.json()) // or res.json()
+        .then((res) => {
+          if (res) {
+            toast.success("Delete success !...~");
+            mutate("http://localhost:8000/blogs");
+          }
+        });
+    }
+  };
 
   return (
     <div>
@@ -50,7 +69,11 @@ export default function AppTable(props: IProps) {
                     <Button variant="primary">View</Button>
                   </Link>
 
-                  <Button className="mx-3" variant="danger">
+                  <Button
+                    className="mx-3"
+                    variant="danger"
+                    onClick={() => handleDelete(item.id)}
+                  >
                     Delete
                   </Button>
                   <Button
